@@ -216,8 +216,17 @@ Fixes issue with G+ login window not closing correctly on ios 9
  */
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
     self.isSigningIn = YES;
-    [self.viewController presentViewController:viewController animated:YES completion:nil];
+    [self.getTopMostViewController presentViewController:viewController animated:YES completion:nil];
 }
+
+- (UIViewController*) getTopMostViewController {
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    return topController;
+}
+
 
 /** Google Sign-In SDK
  @date July 19, 2015
